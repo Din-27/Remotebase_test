@@ -22,5 +22,4 @@ app.use('/auth', authRouter);
 app.use('/', indexRouter);
 app.use('/tasks', tasksRouter);
 
-
 module.exports = app;

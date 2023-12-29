@@ -6,15 +6,16 @@ const LINE_ENDING = require('os').EOL;
 
 
 module.exports = function (req, res) {
-  const idGenerate = shortid.generate()
-  let dataBefore = '',dataFile = idGenerate
+  const idGenerate = shortid.generate() + LINE_ENDING
   const fileExist = fs.existsSync(VALID_KEYS_PATH)
-  if (fileExist) {
-    dataBefore = fs.readFileSync(VALID_KEYS_PATH)
-    dataFile = dataBefore + LINE_ENDING + idGenerate
+  if (!fileExist) {
+    fs.appendFileSync(VALID_KEYS_PATH, idGenerate)
+  } else {
+    const data = fs.readFileSync(VALID_KEYS_PATH)
+    const dataString = String(data) + idGenerate
+    fs.writeFileSync(VALID_KEYS_PATH, dataString)
   }
-  fs.writeFileSync(VALID_KEYS_PATH, dataFile)
   const data = fs.readFileSync(VALID_KEYS_PATH)
-  res.send(String(data).split(LINE_ENDING)[0])
+  res.send({ apiKey: String(data).split(LINE_ENDING)[0] })
 };
 

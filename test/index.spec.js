@@ -4,9 +4,9 @@ const server = require('../app');
 const should = chai.should();
 const sinon = require('sinon');
 const keyStore = require('../key-store');
-const {Request, Response} = require('./mock');
+const { Request, Response } = require('./mock');
 const utils = require('./utils');
-const {uniq} = require('lodash');
+const { uniq } = require('lodash');
 const Promise = require('bluebird');
 
 chai.use(chaiHttp);
@@ -68,6 +68,7 @@ describe('express_authentication_middleware_basics', () => {
             .get('/auth')
             .then(res => {
                 response = res;
+                // console.log(response);
                 return utils.getKeysFromFile();
             })
             .then(keys => {
@@ -102,7 +103,7 @@ describe('express_authentication_middleware_basics', () => {
 
         agent
             .get('/auth')
-            .then(({body: {apiKey}}) => {
+            .then(({ body: { apiKey } }) => {
                 return Promise.all([
                     agent
                         .get('/tasks')
